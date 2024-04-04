@@ -1,0 +1,50 @@
+{
+    "name": "Space Explorer",
+    "description": "",
+    "dependencies": {
+        "device": "*"
+    },
+    "files": [
+        "main.ts",
+        "README.md",
+        "assets.json",
+        "tilemap.g.jres",
+        "tilemap.g.ts",
+        "images.g.jres",
+        "images.g.ts"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "branch": "v1.12.46",
+        "tag": "v1.12.46",
+        "commits": "https://github.com/microsoft/pxt-arcade/commits/e66fb08db35df2249cd64300195259c64d497106",
+        "target": "1.12.49",
+        "pxt": "8.5.57",
+        "targetId": "arcade"
+    },
+    "supportedTargets": [
+        "arcade"
+    ],
+    "preferredEditor": "tsprj",
+    "languageRestriction": "javascript-only",
+    "palette": [
+        "#000000",
+        "#f5edba",
+        "#9d303b",
+        "#d26471",
+        "#e4943a",
+        "#c0c741",
+        "#647d34",
+        "#34859d",
+        "#17434b",
+        "#7ec4c1",
+        "#584563",
+        "#8c8fae",
+        "#3e2137",
+        "#d79b7d",
+        "#9a6348",
+        "#1f0e1c"
+    ]
+}
