@@ -15,6 +15,7 @@ let keys = 1
 let bossFight = false
 
 
+
 namespace SpriteKind{
     export const EnemyProjectile = SpriteKind.create()
     export const NonPlayable = SpriteKind.create()
@@ -393,6 +394,40 @@ game.onUpdate(function(){
             }
         })
 
+
+        //bossTakesDamage
+        game.onUpdate(function(){
+            sprites.onOverlap(SpriteKind.Projectile, SpriteKind.BigAlien, function(blast: Sprite, boss: Sprite){
+                bossHP--
+                blast.destroy()
+                music.thump.play()
+                boss.startEffect(effects.fire, 300)
+                let bossSpeech = Math.pickRandom([1, 2, 3, 4])
+                if(bossSpeech == 1){
+                    boss.say("BOB?!?!", 100)
+                }
+                if (bossSpeech == 2) {
+                    boss.say("WHY YOU BULLY ME?", 100)     
+                }
+                if (bossSpeech == 3) {
+                    boss.say("I TO0 SWEET TO BE BULLIED!", 100)       
+                }
+                if (bossSpeech == 4){
+                    boss.say("OWWW!!!", 100)
+                }
+                //destroyBoss
+                if(bossHP < 1){
+                    boss.say("", 1)
+                    boss.destroy()
+                    music.smallCrash.play()
+                    music.stopAllSounds()
+                    music.play(song, music.PlaybackMode.LoopingInBackground)
+                   
+
+                }
+            })
+        })
+
         //BossFightSong
         game.onUpdate(function(){
             if(Math.abs(bob.x - bigAlien.x)<= 30 && Math.abs(bob.y - bigAlien.y) <= 30 && bossFight == false){
@@ -411,6 +446,7 @@ game.onUpdate(function(){
         
     
     }
+
 //overlapFunctions
 
     //blast.hitsEnemy
