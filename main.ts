@@ -9,9 +9,10 @@ let bigAlien: Sprite = null
 
 
 
+
 let blasterVelocityX = 0 
 let blasterVelocityY = 200
-let keys = 1
+let keys = 0
 let bossFight = false
 
 
@@ -23,10 +24,11 @@ namespace SpriteKind{
     export const HealthChest = SpriteKind.create()
     export const BigAlien = SpriteKind.create()
     export const Gate = SpriteKind.create()
+    export const Key = SpriteKind.create()
 }
 
 
-info.setLife(10) 
+info.setLife(20) 
 info.setBackgroundColor(15)
 info.setBorderColor(15)
 info.setFontColor(1)
@@ -305,9 +307,9 @@ game.onUpdate(function(){
         `, SpriteKind.Gate)
         gate.setPosition(x1 * 16 , y1 * 16)
         tiles.setWallAt(tiles.getTileLocation(x1, y1), true)
-        tiles.setWallAt(tiles.getTileLocation(x1 + 16, y1), true)
-        tiles.setWallAt(tiles.getTileLocation(x1 + 32, y1), true)
-        tiles.setWallAt(tiles.getTileLocation(x1 + 48, y1), true)
+        tiles.setWallAt(tiles.getTileLocation(x1 + 1, y1), true)
+        tiles.setWallAt(tiles.getTileLocation(x1 - 1, y1), true)
+        tiles.setWallAt(tiles.getTileLocation(x1 + 2, y1), true)
 
         game.onUpdate(function(){
             if(keys > 0 && Math.abs(bob.x - gate.x)<= 20 && Math.abs(bob.y - gate.y)<= 20 && gateLocked == true){
@@ -316,9 +318,9 @@ game.onUpdate(function(){
                 music.bigCrash.play()
                 gate.destroy()
                 tiles.setWallAt(tiles.getTileLocation(x1, y1), false)
-                tiles.setWallAt(tiles.getTileLocation(x1 + 16, y1), false)
-                tiles.setWallAt(tiles.getTileLocation(x1 + 32, y1), false)
-                tiles.setWallAt(tiles.getTileLocation(x1 + 48, y1), false)
+                tiles.setWallAt(tiles.getTileLocation(x1 + 1, y1), false)
+                tiles.setWallAt(tiles.getTileLocation(x1 -1, y1), false)
+                tiles.setWallAt(tiles.getTileLocation(x1 + 1, y1), false)
                 music.bigCrash
             }
         })
@@ -343,6 +345,9 @@ game.onUpdate(function(){
         bigAlien.onDestroyed(function(){
             alive = false
             //spawnKey
+
+            let key: Sprite = sprites.create(assets.image`key`, SpriteKind.Key)
+            key.setPosition(bigAlien.x, bigAlien.y)
         })
 
         //movementSequence
@@ -430,7 +435,7 @@ game.onUpdate(function(){
 
         //BossFightSong
         game.onUpdate(function(){
-            if(Math.abs(bob.x - bigAlien.x)<= 30 && Math.abs(bob.y - bigAlien.y) <= 30 && bossFight == false){
+            if(Math.abs(bob.x - bigAlien.x)<= 50 && Math.abs(bob.y - bigAlien.y) <= 50 && bossFight == false){
                 bossFight = true
                 music.stopAllSounds()
                 music.play(song2, music.PlaybackMode.LoopingInBackground)
@@ -520,7 +525,13 @@ game.onUpdate(function(){
         openChest.setPosition(chest.x, chest.y)
         music.powerUp.playUntilDone()
         openChest.setImage(assets.image`emptyChest`)
-
+    })
+    //key
+    sprites.onOverlap(SpriteKind.Player, SpriteKind.Key, function(player: Sprite, key: Sprite){
+        keys++
+        key.destroy()
+        music.baDing.play()
+        player.say("I GOT A KEY!!!", 300)
     })
 
 
