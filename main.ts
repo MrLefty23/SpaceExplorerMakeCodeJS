@@ -12,7 +12,7 @@ let bigAlien: Sprite = null
 
 let blasterVelocityX = 0 
 let blasterVelocityY = 200
-let keys = 0
+let keys = 1
 let bossFight = false
 
 
@@ -28,7 +28,7 @@ namespace SpriteKind{
 }
 
 
-info.setLife(20) 
+info.setLife((25)) 
 info.setBackgroundColor(15)
 info.setBorderColor(15)
 info.setFontColor(1)
@@ -240,18 +240,51 @@ game.onUpdate(function(){
     function spawnNPC(xPos: number, yPos: number, costume: number){
         let npc = sprites.create(assets.image`bobs friend`, SpriteKind.NonPlayable)
         npc.setPosition(xPos * 16, yPos * 16)
+        //shopKeeperCostume
         if(costume == 2){
             npc.setImage(assets.image`shopHelper`)
         }
-        game.onUpdate(function (){
-            if(Math.abs(bob.x - npc.x) < 40 && Math.abs(bob.y - npc.y) < 40){
+        //gateGuyCostume!
+        if(costume == 3){
+            npc.setImage(assets.image`doog`)
+        }
 
+        //row_of_?
+        if(costume == 4){
+            npc.setImage(img`
+                . . . . . . . f f f f f . . . .
+                . . . . . . f e e e e e f . . .
+                . . . . . f e e e d d d d f . .
+                . . . . f f e e d f d d f d c .
+                . . . f d d e e d f d d f d c .
+                . . . c d b e e d d d d e e d c
+                f f . c d b e e d d c d d d d c
+                f e f . c f e e d d d c c c c c
+                f e f . . f f e e d d d d d f .
+                f e f . f e e e e f f f f f . .
+                f e f f e e e e e e e f . . . .
+                . f f e e e e f e f f e f . . .
+                . . f e e e e f e f f e f . . .
+                . . . f e f f b d f b d f . . .
+                . . . f d b b d d c d d f . . .
+                . . . f f f f f f f f f . . . .
+            `)
+        }
+        game.onUpdate(function (){
+            //Close2NPC
+            if(Math.abs(bob.x - npc.x) < 40 && Math.abs(bob.y - npc.y) < 40){
                 npc.z = bob.z - 1
+                //shop1
                 if(costume == 1){
                     npc.say('Welcome friend!', 500)
                 }
+                //shop2
                 if (costume == 2) {
                     npc.say('Buy my stuff!', 500)
+                } 
+                //gateGuy
+                if(costume == 3){
+                    npc.say("KEY OPENS GATE!", 500)
                 }
             }
             
@@ -321,7 +354,8 @@ game.onUpdate(function(){
                 tiles.setWallAt(tiles.getTileLocation(x1 + 1, y1), false)
                 tiles.setWallAt(tiles.getTileLocation(x1 -1, y1), false)
                 tiles.setWallAt(tiles.getTileLocation(x1 + 1, y1), false)
-                music.bigCrash
+                music.beamUp.play()
+                
             }
         })
 
@@ -570,6 +604,14 @@ function level1Setup() {
     spawnGate(45 , 35.5)
     //bigAlien.spawn
     spawnBigAlien(52.5, 2.5)
+    //doogInTheHome
+    spawnNPC(41, 34, 3)
+    //mon-key
+    for(let i = 5; i < 28; i++){
+        spawnNPC(i, 37, 4)
+    }
+    
+        
 
 }
 

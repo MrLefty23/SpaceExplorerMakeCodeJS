@@ -203,6 +203,23 @@ aa444444444444444444444444444444a..
 . . . . . f f f f f . . . . . . 
 . . . . . . . . . . . . . . . . 
 `;
+            case "image9":
+            case "doog":return img`
+. . f f f . . . . f f f . . . . 
+. f e e e f . . f e e e f . . . 
+f e e e e e f f e e e e e f . . 
+f e e f f e e e e f f e e f . . 
+f e f f e e e e e e f f e f . . 
+. f f e e e e e e e e f f . . . 
+. . f e f e e e e f e f . . . . 
+. . f e e e 4 4 e e e f . . f f 
+. . f 4 e e f f e e 4 f . f e f 
+. . . f 9 9 9 9 9 9 e e f e e f 
+. . . f e e e e e e e e e e f . 
+. . . f e e e e e e e e f f . . 
+. . 9 f e f f f e f f e f . . . 
+. . . f f . . f f . . f f . . . 
+`;
         }
         return null;
     })
