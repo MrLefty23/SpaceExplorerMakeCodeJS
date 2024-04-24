@@ -12,9 +12,9 @@ let bigAlien: Sprite = null
 
 let blasterVelocityX = 0 
 let blasterVelocityY = 200
-let keys = 1
+let keys = 0
 let bossFight = false
-
+let aliensOnScreen = 0
 
 
 namespace SpriteKind{
@@ -25,31 +25,15 @@ namespace SpriteKind{
     export const BigAlien = SpriteKind.create()
     export const Gate = SpriteKind.create()
     export const Key = SpriteKind.create()
+    export const Coin = SpriteKind.create()
 }
 
 
-info.setLife((25)) 
+info.setLife(25)
 info.setBackgroundColor(15)
 info.setBorderColor(15)
 info.setFontColor(1)
-coinIcon = sprites.create(img`
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . f f f f f f f f f f . . .
-    . . f f 4 4 4 4 4 4 4 4 f f . .
-    . f f 4 4 4 4 4 3 4 4 4 4 f f .
-    . f 4 4 4 3 3 3 3 3 3 4 4 4 f .
-    . f 4 4 4 3 4 4 3 4 4 4 4 4 f .
-    . f 4 4 4 3 4 4 3 4 4 4 4 4 f .
-    . f 4 4 4 3 3 3 3 3 3 4 4 4 f .
-    . f 4 4 4 4 4 4 3 4 3 4 4 4 f .
-    . f 4 4 4 4 4 4 3 4 3 4 4 4 f .
-    . f 4 4 4 3 3 3 3 3 3 4 4 4 f .
-    . f f 4 4 4 4 4 3 4 4 4 4 f f .
-    . . f f 4 4 4 4 4 4 4 4 f f . .
-    . . . f f f f f f f f f f . . .
-    . . . . . . . . . . . . . . . .
-`)
+coinIcon = sprites.create(assets.image`coin`)
 coinIcon.setPosition(135, 5)
 coinIcon.setFlag(SpriteFlag.RelativeToCamera, true)
 
@@ -144,6 +128,7 @@ game.onUpdate(function(){
     //alien 
     function spawnAlien(xPos: number, yPos: number, movement: number){
         let alien = sprites.create(assets.image`alien`, SpriteKind.Enemy)
+        aliensOnScreen++
         alien.setPosition(xPos * 16, yPos * 16) 
         let enemyBlastX = 0 
         let enemyBlastY = -200
@@ -154,6 +139,38 @@ game.onUpdate(function(){
         
         alien.onDestroyed(function() {
             enemyAlive = false 
+            aliensOnScreen--
+            //enemyDropsYummyItems
+            let dropChance = Math.randomRange(0, 100)
+            if(dropChance <= 45){
+                let drop = Math.pickRandom([1, 2])
+                if(drop == 1){
+                    //spawn💗
+                    let heart: Sprite = sprites.create(img`
+                . . . . . . . . . . . . . . . .
+                . . f f f f f f . f f f f f f .
+                . f f 3 3 3 3 f f f 3 3 3 3 f f
+                . f 3 3 3 3 3 3 f 3 3 3 3 3 3 f
+                . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f
+                . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f
+                . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f
+                . f 3 3 3 3 3 3 3 3 3 3 3 3 3 f
+                . f f 3 3 3 3 3 3 3 3 3 3 3 f f
+                . . f f 3 3 3 3 3 3 3 3 3 f f .
+                . . . f f 3 3 3 3 3 3 3 f f . .
+                . . . . f f 3 3 3 3 3 f f . . .
+                . . . . . f f 3 3 3 f f . . . .
+                . . . . . . f f 3 f f . . . . .
+                . . . . . . . f f f . . . . . .
+                . . . . . . . . . . . . . . . .
+                    `, SpriteKind.Food)
+                    heart.setPosition(alien.x, alien.y)
+                }else{
+                    let coin: Sprite = sprites.create(assets.image`coin`, SpriteKind.Coin)
+                    coin.setPosition(alien.x, alien.y)
+                    
+                }
+            }
         })
         //blaster 
         game.onUpdateInterval(1200, function () {
@@ -231,6 +248,9 @@ game.onUpdate(function(){
             if(movement == 1){
                 alien.setVelocity(enemyMoveX, enemyMoveY)
                 enemyMoveX = enemyMoveX * -1
+            }
+            if(movement == 2){
+                alien.setVelocity(Math.pickRandom([-20, 0, 20]), Math.pickRandom([-20, 0, 20]))
             }
         })
 
@@ -379,9 +399,31 @@ game.onUpdate(function(){
         bigAlien.onDestroyed(function(){
             alive = false
             //spawnKey
-
             let key: Sprite = sprites.create(assets.image`key`, SpriteKind.Key)
             key.setPosition(bigAlien.x, bigAlien.y)
+            //spawn💗
+            for(let i = 0; i < 3 ; i++){            
+                let heart: Sprite = sprites.create(img`
+                    . . . . . . . . . . . . . . . .
+                    . . f f f f f f . f f f f f f .
+                    . f f 3 3 3 3 f f f 3 3 3 3 f f
+                    . f 3 3 3 3 3 3 f 3 3 3 3 3 3 f
+                    . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f
+                    . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f
+                    . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f
+                    . f 3 3 3 3 3 3 3 3 3 3 3 3 3 f
+                    . f f 3 3 3 3 3 3 3 3 3 3 3 f f
+                    . . f f 3 3 3 3 3 3 3 3 3 f f .
+                    . . . f f 3 3 3 3 3 3 3 f f . .
+                    . . . . f f 3 3 3 3 3 f f . . .
+                    . . . . . f f 3 3 3 f f . . . .
+                    . . . . . . f f 3 f f . . . . .
+                    . . . . . . . f f f . . . . . .
+                    . . . . . . . . . . . . . . . .
+                `, SpriteKind.Food)
+                heart.setPosition(bigAlien.x, bigAlien.y)
+            }
+
         })
 
         //movementSequence
@@ -486,6 +528,15 @@ game.onUpdate(function(){
     
     }
 
+    //alienSpawneer
+    function spawner(xPos: number, yPos: number){
+        if(aliensOnScreen < 250){
+            game.onUpdateInterval(15000, function(){
+                spawnAlien(xPos, yPos, 2)
+            })
+        }
+    }
+
 //overlapFunctions
 
     //blast.hitsEnemy
@@ -566,6 +617,19 @@ game.onUpdate(function(){
         key.destroy()
         music.baDing.play()
         player.say("I GOT A KEY!!!", 300)
+        music.beamUp
+    })
+    //heart
+    sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function(player: Sprite, heart: Sprite){
+        info.changeLifeBy(1)
+        heart.destroy()
+        music.powerUp.play()
+    })
+    //coin
+    sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (player: Sprite, coin: Sprite) {
+        info.changeScoreBy(1)
+        coin.destroy()
+        music.baDing.play()
     })
 
 
@@ -610,7 +674,11 @@ function level1Setup() {
     for(let i = 5; i < 28; i++){
         spawnNPC(i, 37, 4)
     }
-    
+    //AlienSpawner1
+    spawner(28, 30)
+    //spawner2
+    spawner(53, 1)
+
         
 
 }
