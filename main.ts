@@ -4,7 +4,7 @@ let blast: Sprite = null
 let enemyBlast: Sprite = null 
 let alien: Sprite = null 
 let npc: Sprite = null
-let coinIcon: Sprite = null 
+let coinIcon: Sprite = null
 let bigAlien: Sprite = null 
 
 
@@ -26,6 +26,7 @@ namespace SpriteKind{
     export const Gate = SpriteKind.create()
     export const Key = SpriteKind.create()
     export const Coin = SpriteKind.create()
+    export const ShopHeart = SpriteKind.create()
 }
 
 
@@ -36,6 +37,7 @@ info.setFontColor(1)
 coinIcon = sprites.create(assets.image`coin`)
 coinIcon.setPosition(135, 5)
 coinIcon.setFlag(SpriteFlag.RelativeToCamera, true)
+info.setScore(20)
 
 //controller setup
 bob = sprites.create(assets.image`bob`, SpriteKind.Player)
@@ -268,7 +270,10 @@ game.onUpdate(function(){
         if(costume == 3){
             npc.setImage(assets.image`doog`)
         }
-
+        //shop2costume.
+        if(costume == 5){
+            npc.setImage(assets.image`finalNPC`)
+        }
         //row_of_?
         if(costume == 4){
             npc.setImage(img`
@@ -299,7 +304,7 @@ game.onUpdate(function(){
                     npc.say('Welcome friend!', 500)
                 }
                 //shop2
-                if (costume == 2) {
+                if (costume == 2 || costume == 5) {
                     npc.say('Buy my stuff!', 500)
                 } 
                 //gateGuy
@@ -530,11 +535,39 @@ game.onUpdate(function(){
 
     //alienSpawneer
     function spawner(xPos: number, yPos: number){
-        if(aliensOnScreen < 250){
+        if(aliensOnScreen < 200){
             game.onUpdateInterval(15000, function(){
                 spawnAlien(xPos, yPos, 2)
             })
         }
+    }
+
+    //healthItem...
+    function healthItem(xPos: number, yPos: number){
+        let healthItem = sprites.create(img`
+            ................
+            ..ffffff.ffffff.
+            .ff3333fff3333ff
+            .f333333f333333f
+            .f3333333311133f
+            .f3333333311133f
+            .f3333333311133f
+            .f3333333333333f
+            .ff33333333333ff
+            ..ff333333333ff.
+            ...ff3333333ff..
+            ....ff33333ff...
+            .....ff333ff....
+            ......ff3ff.....
+            .......fff......
+            ffffffffffffffff
+            ffff44ff4444ffff
+            fffff4ff4ff4ffff
+            fffff4ff4ff4ffff
+            ffff444f4444ffff
+            ffffffffffffffff
+        `, SpriteKind.ShopHeart)
+        healthItem.setPosition(xPos * 16, yPos * 16)
     }
 
 //overlapFunctions
@@ -632,6 +665,21 @@ game.onUpdate(function(){
         music.baDing.play()
     })
 
+    //ShopHeart
+    sprites.onOverlap(SpriteKind.Player, SpriteKind.ShopHeart, function(player: Sprite, heart: Sprite){
+        if(info.score() >= 10){
+            player.say("Press A to buy!", 200)
+            if(controller.A.isPressed()== true){
+                if(game.ask("Do you want to buy?")== true){
+                    info.changeScoreBy(-10)
+                    info.changeLifeBy(5)
+                    music.powerUp.play()
+                    player.setPosition(player.x - 40, player.y)
+                }
+                
+            }
+        }
+    })
 
 //levelSetup
 
@@ -678,7 +726,10 @@ function level1Setup() {
     spawner(28, 30)
     //spawner2
     spawner(53, 1)
-
+    //shopKeeper2
+    spawnNPC(31, 12, 5)
+    //ShopHeart
+    healthItem(33, 14)
         
 
 }
@@ -699,7 +750,5 @@ music.play(song, music.PlaybackMode.LoopingInBackground)
 
 //boss.Music
 let song2 = music.createSong(assets.song`bossMusic`)
-
-
 
 
