@@ -283,7 +283,7 @@ f e f f e e e e e e f f e f . .
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
-. 5 8 8 . . . . . . . 8 8 5 . . 
+. 5 8 8 . . . . . . . 8 3 5 . . 
 . 8 2 2 2 7 2 . 2 7 2 2 2 8 . . 
 . 5 9 8 7 7 7 . 7 7 7 8 9 5 . . 
 . . . . . . 9 . 9 . . . . . . . 
@@ -295,6 +295,94 @@ f f f 4 4 4 f f 4 f f 4 f f f f
 f f f 4 f f f f 4 f f 4 f f f f 
 f f f 4 4 4 f f 4 4 4 4 f f f f 
 f f f f f f f f f f f f f f f f 
+`;
+            case "image14":
+            case "bootsUpgrade":return img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . 7 7 . . 7 7 . . . . . 
+. . . b b 7 b . . b 7 b b . . . 
+f f f f f f f f f f f f f f f f 
+f f f f 4 f f f 4 4 4 4 f f f f 
+f f f f 4 f f f 4 f f f f f f f 
+f f f f 4 f f f 4 4 4 4 f f f f 
+f f f f 4 f f f f f f 4 f f f f 
+f f f f 4 f f f 4 4 4 4 f f f f 
+f f f f f f f f f f f f f f f f 
+`;
+            case "image15":
+            case "bob2boots":return img`
+....................
+......fffffffff.....
+.....ff1111111ff....
+..ffff11ffff111ff...
+..ff111fffffff11ff..
+..ff1ffffffcfff11f..
+..f11fffffccfffc1f..
+..f1fffcfffffffc1f..
+..f1cccfffeeffcc1f..
+..f1fffffeeffccf1f..
+..f1fffbfeefbfff1f..
+..f11141f44f1411ff..
+..fff1e444444e1ff...
+.227211111111112722.
+..777efb1111bfe777..
+...474f115711f474...
+...47ef111111fe74...
+.......ffffff.......
+.......77..77.......
+.....bb7b..b7bb.....
+`;
+            case "image16":
+            case "bobBlaster2":return img`
+....................
+......fffffffff.....
+.....ff1111111ff....
+..ffff11ffff111ff...
+..ff111fffffff11ff..
+..ff1ffffffcfff11f..
+..f11fffffccfffc1f..
+..f1fffcfffffffc1f..
+..f1cccfffeeffcc1f..
+..f1fffffeeffccf1f..
+..f1fffbfeefbfff1f..
+..f11141f44f1411ff..
+588ff1e444444e1ff885
+82227211111111272228
+598777fb1111bf777895
+...479f115711f974...
+...479f111111f974...
+.......ffffff.......
+.......22..22.......
+......222..222......
+`;
+            case "image17":
+            case "bobBlaster_boots":return img`
+....................
+......fffffffff.....
+.....ff1111111ff....
+..ffff11ffff111ff...
+..ff111fffffff11ff..
+..ff1ffffffcfff11f..
+..f11fffffccfffc1f..
+..f1fffcfffffffc1f..
+..f1cccfffeeffcc1f..
+..f1fffffeeffccf1f..
+..f1fffbfeefbfff1f..
+..f11141f44f1411ff..
+588ff1e444444e1ff885
+82227211111111272228
+598777fb1111bf777895
+...479f115711f974...
+...479f111111f974...
+.......ffffff.......
+.......77..77.......
+.....bb7b..b7bb.....
 `;
         }
         return null;

@@ -9,12 +9,12 @@ let bigAlien: Sprite = null
 
 
 
-
 let blasterVelocityX = 0 
 let blasterVelocityY = 200
 let keys = 0
 let bossFight = false
 let aliensOnScreen = 0
+let blasterType = 1
 
 
 namespace SpriteKind{
@@ -27,6 +27,8 @@ namespace SpriteKind{
     export const Key = SpriteKind.create()
     export const Coin = SpriteKind.create()
     export const ShopHeart = SpriteKind.create()
+    export const BootsUpgrade = SpriteKind.create()
+    export const BlasterUpgrade = SpriteKind.create()
 }
 
 
@@ -37,12 +39,13 @@ info.setFontColor(1)
 coinIcon = sprites.create(assets.image`coin`)
 coinIcon.setPosition(135, 5)
 coinIcon.setFlag(SpriteFlag.RelativeToCamera, true)
-info.setScore(20)
+info.setScore(50)
 
 //controller setup
 bob = sprites.create(assets.image`bob`, SpriteKind.Player)
 controller.moveSprite(bob)
 scene.cameraFollowSprite(bob)
+bob.z = 10
 
 
 
@@ -68,7 +71,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function (){
     `, bob, blasterVelocityX, blasterVelocityY)
     music.pewPew.play()
 })
-
+ 
 //aiming
 game.onUpdate(function(){
     //up
@@ -342,6 +345,8 @@ game.onUpdate(function(){
         }
     }
 
+    
+
     //gate
     function spawnGate(x1: number, y1: number){
         let gateLocked = true
@@ -570,6 +575,19 @@ game.onUpdate(function(){
         healthItem.setPosition(xPos * 16, yPos * 16)
     }
 
+    //bootsUpgrade
+    function bootsUpgrade(xPos: number, yPos: number){
+        let bootsUpgrade = sprites.create(assets.image`bootsUpgrade`, SpriteKind.BootsUpgrade)
+        bootsUpgrade.setPosition(xPos * 16, yPos * 16)
+        bootsUpgrade.say("Boots2.0")
+    }
+    //BlasterUpgrade
+    function blasterUpgrade(xPos: number, yPos: number) {
+        let blasterUpgrade = sprites.create(assets.image`blasterUpgrade`, SpriteKind.BlasterUpgrade)
+        blasterUpgrade.setPosition(xPos * 16, yPos * 16)
+        blasterUpgrade.say("Blaster2.0")
+    }
+
 //overlapFunctions
 
     //blast.hitsEnemy
@@ -681,6 +699,33 @@ game.onUpdate(function(){
         }
     })
 
+    //bootsUpgrade
+    sprites.onOverlap(SpriteKind.Player, SpriteKind.BootsUpgrade, function(player: Sprite, boots: Sprite){
+        if(info.score()>= 15){
+            player.say("Press A to buy!", 200)
+            if (controller.A.isPressed() == true) {
+                if (game.ask("Do you want to buy?") == true) {
+                    info.changeScoreBy(-15)
+                    music.beamUp.play()
+                    player.setPosition(player.x + 40, player.y)
+                    boots.destroy()
+                    tiles.setWallAt(tiles.getTileLocation(1, 25), false)
+                    tiles.setWallAt(tiles.getTileLocation(1, 26), false)
+                    tiles.setWallAt(tiles.getTileLocation(4, 30), false)
+                    tiles.setWallAt(tiles.getTileLocation(5, 30), false)
+                    tiles.setWallAt(tiles.getTileLocation(8, 25), false)
+                    tiles.setWallAt(tiles.getTileLocation(8, 26),false)
+                    if(blasterType = 1){
+                      player.setImage(assets.image`bob2boots`)
+                    }
+                    if(blasterType = 2){
+                        player.setImage(assets.image`bobBlaster_boots`)
+                    }
+                }
+            }
+        }
+    })
+    
 //levelSetup
 
 function level1Setup() {
@@ -730,6 +775,10 @@ function level1Setup() {
     spawnNPC(31, 12, 5)
     //ShopHeart
     healthItem(33, 14)
+    //bootsUpgrade
+    bootsUpgrade(24, 12)
+    //blasterUpgrade
+    blasterUpgrade(24, 14)
         
 
 }
