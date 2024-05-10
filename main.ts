@@ -15,6 +15,8 @@ let keys = 0
 let bossFight = false
 let aliensOnScreen = 0
 let blasterType = 1
+let bootsType = 1
+
 
 
 namespace SpriteKind{
@@ -32,7 +34,7 @@ namespace SpriteKind{
 }
 
 
-info.setLife(25)
+info.setLife(5)
 info.setBackgroundColor(15)
 info.setBorderColor(15)
 info.setFontColor(1)
@@ -40,6 +42,14 @@ coinIcon = sprites.create(assets.image`coin`)
 coinIcon.setPosition(135, 5)
 coinIcon.setFlag(SpriteFlag.RelativeToCamera, true)
 info.setScore(50)
+
+//gameOver(Sorry Bob...)
+info.onLifeZero(function() {
+    
+    animation.runImageAnimation(bob, assets.animation`Bobdied`, 500, false)
+    //game.over()
+})
+
 
 //controller setup
 bob = sprites.create(assets.image`bob`, SpriteKind.Player)
@@ -70,6 +80,26 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function (){
         . . . . . . . . . . . . . . . .
     `, bob, blasterVelocityX, blasterVelocityY)
     music.pewPew.play()
+    if(blasterType == 2){
+        let blast2 = sprites.createProjectileFromSprite(img`
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . 9 9 9 9 . . . . . .
+        . . . . . 9 9 2 2 9 9 . . . . .
+        . . . . . 9 2 2 2 2 9 . . . . .
+        . . . . . 9 2 2 2 2 9 . . . . .
+        . . . . . 9 9 2 2 9 9 . . . . .
+        . . . . . . 9 9 9 9 . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+    `, bob, blasterVelocityX * -1, blasterVelocityY * -1)
+    }
 })
  
 //aiming
@@ -312,7 +342,7 @@ game.onUpdate(function(){
                 } 
                 //gateGuy
                 if(costume == 3){
-                    npc.say("KEY OPENS GATE!", 500)
+                    npc.say("KEY OPENS GATE :)", 500, 9, 15)
                 }
             }
             
@@ -708,7 +738,9 @@ game.onUpdate(function(){
                     info.changeScoreBy(-15)
                     music.beamUp.play()
                     player.setPosition(player.x + 40, player.y)
+                    boots.say("", 5)
                     boots.destroy()
+                    bootsType = 2
                     tiles.setWallAt(tiles.getTileLocation(1, 25), false)
                     tiles.setWallAt(tiles.getTileLocation(1, 26), false)
                     tiles.setWallAt(tiles.getTileLocation(4, 30), false)
@@ -718,7 +750,7 @@ game.onUpdate(function(){
                     if(blasterType = 1){
                       player.setImage(assets.image`bob2boots`)
                     }
-                    if(blasterType = 2){
+                    else if(blasterType = 2){
                         player.setImage(assets.image`bobBlaster_boots`)
                     }
                 }
@@ -726,6 +758,29 @@ game.onUpdate(function(){
         }
     })
     
+    //blasterUpgrade
+    sprites.onOverlap(SpriteKind.Player, SpriteKind.BlasterUpgrade, function(bob: Sprite, blaster: Sprite){
+        if (info.score() >= 20) {
+            bob.say("Press A to buy!", 200)
+            if (controller.A.isPressed() == true) {
+                if (game.ask("Do you want to buy?") == true) {
+                    info.changeScoreBy(-20)
+                    blaster.say("", 5)
+                    blaster.destroy()
+                    music.buzzer.play()
+                    blasterType = 2
+                    if (bootsType = 1) {
+                        bob.setImage(assets.image`bobBlaster2`)
+                    }
+                    else if (bootsType = 2) {
+                        bob.setImage(assets.image`bobBlaster_boots`)
+                    }
+
+                }
+            }
+        }
+    })
+
 //levelSetup
 
 function level1Setup() {
