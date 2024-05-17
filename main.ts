@@ -34,7 +34,7 @@ namespace SpriteKind{
 }
 
 
-info.setLife(5)
+info.setLife(20)
 info.setBackgroundColor(15)
 info.setBorderColor(15)
 info.setFontColor(1)

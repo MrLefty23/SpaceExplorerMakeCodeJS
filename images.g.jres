@@ -84,6 +84,11 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "bobBlaster_boots"
     },
+    "image18": {
+        "data": "hwQQABAAAAAAAAAAwPwPAAAAAABsd/fMAAAAwHfMdsEAAABsd8Z/zAAAAHx3ZnbPAAAAfHdmds8AAAB8d8Z/wQAAAHx3zHbMAMzMbHd3d8fAbGbMd3d3xsB3ZsZsd2fPfHdmZsb8/8Z8x8xmZmZmxnwMwGxmZmYMbAwAzGxmxgzMAAAAzMwMAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "3rd_area_snake_npc_in_corners"
+    },
     "anim1": {
         "namespace": "myAnimations",
         "id": "anim1",
