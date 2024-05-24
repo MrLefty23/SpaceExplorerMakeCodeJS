@@ -838,7 +838,12 @@ function level1Setup() {
 
 }
 
-
+function level2Setup(){
+    //setScene
+    scene.setBackgroundColor(12)
+    tiles.setTilemap(tilemap`3rd_area`)
+    bob.setPosition(16 * 3, 16 * 3)
+}
 
 
 
@@ -847,6 +852,7 @@ function level1Setup() {
 
 level1Setup()
 
+
 //backgroundMusic
 let song = music.createSong(assets.song`Background Music`)
 music.setVolume(40)
@@ -854,5 +860,9 @@ music.play(song, music.PlaybackMode.LoopingInBackground)
 
 //boss.Music
 let song2 = music.createSong(assets.song`bossMusic`)
+
+//awesome3rdAreaMusic
+let song3 = music.createSong(assets.song`3rd_area_song`)
+
 
 
