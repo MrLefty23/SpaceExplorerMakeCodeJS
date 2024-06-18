@@ -11,11 +11,12 @@ let bigAlien: Sprite = null
 
 let blasterVelocityX = 0 
 let blasterVelocityY = 200
-let keys = 0
+let keys = 1
 let bossFight = false
 let aliensOnScreen = 0
 let blasterType = 1
 let bootsType = 1
+let deleteSprites = false
 
 
 
@@ -31,6 +32,7 @@ namespace SpriteKind{
     export const ShopHeart = SpriteKind.create()
     export const BootsUpgrade = SpriteKind.create()
     export const BlasterUpgrade = SpriteKind.create()
+    export const Portal = SpriteKind.create()
 }
 
 
@@ -287,10 +289,16 @@ game.onUpdate(function(){
             if(movement == 2){
                 alien.setVelocity(Math.pickRandom([-20, 0, 20]), Math.pickRandom([-20, 0, 20]))
             }
+        })  
+        //deleteSprites
+        game.onUpdate(function(){
+            if(deleteSprites == true){
+                alien.destroy()
+            }
         })
 
     }
-    
+
     //npc
     function spawnNPC(xPos: number, yPos: number, costume: number){
         let npc = sprites.create(assets.image`bobs friend`, SpriteKind.NonPlayable)
@@ -343,10 +351,19 @@ game.onUpdate(function(){
                 //gateGuy
                 if(costume == 3){
                     npc.say("KEY OPENS GATE :)", 500, 9, 15)
+                    
                 }
+                
             }
+            if (deleteSprites == true) {
+                npc.say("", 1)
+                npc.destroy()
+                
+            }
+
             
         })
+        
     }
 
     //chest
@@ -373,8 +390,14 @@ game.onUpdate(function(){
         if(kind == 2){
             chest.setKind(SpriteKind.HealthChest)
         }
+        //deleteSprites
+        game.onUpdate(function () {
+            if (deleteSprites == true) {
+                chest.destroy()
+            }
+        })
     }
-
+    
     
 
     //gate
@@ -418,6 +441,13 @@ game.onUpdate(function(){
                 
             }
         })
+        //deleteSprites
+        game.onUpdate(function () {
+            if (deleteSprites == true) {
+                gate.destroy()
+            }
+        })
+
 
 
     }
@@ -568,13 +598,37 @@ game.onUpdate(function(){
     
     }
 
+    //portalForNewLife
+    function spawnPortal(xPos: number, yPos: number){
+        let portal = sprites.create(img`
+            . . . . . . . . . . . . . . . .
+            . . . . . . 4 4 4 4 . . . . . .
+            . . . . 4 4 4 5 5 4 4 4 . . . .
+            . . . 3 3 3 3 4 4 4 4 4 4 . . .
+            . . 4 3 3 3 3 2 2 2 1 1 4 4 . .
+            . . 3 3 3 3 3 2 2 2 1 1 5 4 . .
+            . 4 3 3 3 3 2 2 2 2 2 5 5 4 4 .
+            . 4 3 3 3 2 2 2 4 4 4 4 5 4 4 .
+            . 4 4 3 3 2 2 4 4 4 4 4 4 4 4 .
+            . 4 2 3 3 2 2 4 4 4 4 4 4 4 4 .
+            . . 4 2 3 3 2 4 4 4 4 4 2 4 . .
+            . . 4 2 2 3 2 2 4 4 4 2 4 4 . .
+            . . . 4 2 2 2 2 2 2 2 2 4 . . .
+            . . . . 4 4 2 2 2 2 4 4 . . . .
+            . . . . . . 4 4 4 4 . . . . . .
+            . . . . . . . . . . . . . . . .
+        `, SpriteKind.Portal)
+        portal.setPosition(xPos * 16, yPos * 16)
+    }
     //alienSpawneer
     function spawner(xPos: number, yPos: number){
         if(aliensOnScreen < 200){
             game.onUpdateInterval(15000, function(){
                 spawnAlien(xPos, yPos, 2)
             })
+            
         }
+        
     }
 
     //healthItem...
@@ -603,6 +657,13 @@ game.onUpdate(function(){
             ffffffffffffffff
         `, SpriteKind.ShopHeart)
         healthItem.setPosition(xPos * 16, yPos * 16)
+        
+        //deleteSprites
+        game.onUpdate(function () {
+            if (deleteSprites == true) {
+            healthItem.destroy()
+            }
+        })
     }
 
     //bootsUpgrade
@@ -610,12 +671,25 @@ game.onUpdate(function(){
         let bootsUpgrade = sprites.create(assets.image`bootsUpgrade`, SpriteKind.BootsUpgrade)
         bootsUpgrade.setPosition(xPos * 16, yPos * 16)
         bootsUpgrade.say("Boots2.0")
+
+        //deleteSprites
+        game.onUpdate(function () {
+            if (deleteSprites == true) {
+                bootsUpgrade.destroy()
+            }
+        })
     }
     //BlasterUpgrade
     function blasterUpgrade(xPos: number, yPos: number) {
         let blasterUpgrade = sprites.create(assets.image`blasterUpgrade`, SpriteKind.BlasterUpgrade)
         blasterUpgrade.setPosition(xPos * 16, yPos * 16)
         blasterUpgrade.say("Blaster2.0")
+        //deleteSprites
+        game.onUpdate(function () {
+            if (deleteSprites == true) {
+                blasterUpgrade.destroy()
+            }
+        })
     }
 
 //overlapFunctions
@@ -780,6 +854,20 @@ game.onUpdate(function(){
             }
         }
     })
+    //portal
+    sprites.onOverlap(SpriteKind.Player, SpriteKind.Portal, function(bob: Sprite, portal : Sprite){
+        music.magicWand.play()
+        if(game.ask("Portal For New Life?")== true){
+            level2Setup()
+            music.stopAllSounds()
+            music.play(song3, music.PlaybackMode.LoopingInBackground)
+            deleteSprites = true
+            portal.destroy()
+        }
+
+    
+    })
+
 
 //levelSetup
 
@@ -834,6 +922,8 @@ function level1Setup() {
     bootsUpgrade(24, 12)
     //blasterUpgrade
     blasterUpgrade(24, 14)
+    //portal
+    spawnPortal(44, 66)
         
 
 }
@@ -842,7 +932,9 @@ function level2Setup(){
     //setScene
     scene.setBackgroundColor(12)
     tiles.setTilemap(tilemap`3rd_area`)
-    bob.setPosition(16 * 3, 16 * 3)
+    bob.setPosition(16 * 40, 16 * 40)
+    pause(100)
+    deleteSprites = false
 }
 
 
