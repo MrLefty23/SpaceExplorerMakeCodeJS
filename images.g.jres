@@ -89,6 +89,11 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "3rd_area_snake_npc_in_corners"
     },
+    "image19": {
+        "data": "hwQOABAAAADw/wAAAAAAAP////8P4EQA///D//9OTQD/z8P89P//APA7zLzRvmf/z8zM/d99Z//PzNzd3XNnD8/M3N3dc2cPz8zM/d99Z//wO8y80b5n///Pw/z0//wA///D//++vQD/////D+C7APD/AAAAAAAA",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Tourrr GUiiide"
+    },
     "anim1": {
         "namespace": "myAnimations",
         "id": "anim1",

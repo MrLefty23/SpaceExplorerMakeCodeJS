@@ -336,6 +336,10 @@ game.onUpdate(function(){
                 . . . f f f f f f f f f . . . .
             `)
         }
+        //tourGuide
+        if(costume == 5){
+            npc.setImage(assets.image`Tourrr GUiiide`)
+        }
         game.onUpdate(function (){
             //Close2NPC
             if(Math.abs(bob.x - npc.x) < 40 && Math.abs(bob.y - npc.y) < 40){
@@ -353,6 +357,12 @@ game.onUpdate(function(){
                     npc.say("KEY OPENS GATE :)", 500, 9, 15)
                     
                 }
+                //tourGuide
+                if(costume == 5){
+                    npc.say("Press A to hear my story...", 500)
+
+                }
+                
                 
             }
             if (deleteSprites == true) {
@@ -821,10 +831,10 @@ game.onUpdate(function(){
                     tiles.setWallAt(tiles.getTileLocation(5, 30), false)
                     tiles.setWallAt(tiles.getTileLocation(8, 25), false)
                     tiles.setWallAt(tiles.getTileLocation(8, 26),false)
-                    if(blasterType = 1){
+                    if(blasterType == 1){
                       player.setImage(assets.image`bob2boots`)
                     }
-                    else if(blasterType = 2){
+                    else if(blasterType == 2){
                         player.setImage(assets.image`bobBlaster_boots`)
                     }
                 }
@@ -843,10 +853,10 @@ game.onUpdate(function(){
                     blaster.destroy()
                     music.buzzer.play()
                     blasterType = 2
-                    if (bootsType = 1) {
+                    if (bootsType == 1) {
                         bob.setImage(assets.image`bobBlaster2`)
                     }
-                    else if (bootsType = 2) {
+                    else if (bootsType == 2) {
                         bob.setImage(assets.image`bobBlaster_boots`)
                     }
 
@@ -924,6 +934,12 @@ function level1Setup() {
     blasterUpgrade(24, 14)
     //portal
     spawnPortal(44, 66)
+    //chests
+    spawnChest(63.5, 1, 1)
+    spawnChest(28, 2, 1)
+    spawnChest(14, 33, 2)
+    //tourGuide
+    spawnNPC(62.5, 31.5, 5)
         
 
 }

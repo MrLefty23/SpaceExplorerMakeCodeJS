@@ -403,6 +403,25 @@ f 7 6 f 6 6 f 6 7 7 7 f 6 6 6 c
 . c 1 c f f 1 c 7 6 f 6 6 c c . 
 . c c c c c c c c c c c c . . . 
 `;
+            case "image19":
+            case "Tourrr GUiiide":return img`
+. f f f . f f f f . f f f . 
+f f f f f c c c c f f f f f 
+f f f f b c c c c b f f f f 
+f f f c 3 c c c c 3 c f f f 
+. f 3 3 c c c c c c 3 3 f . 
+. f c c c c d d c c c c f . 
+. f f c c d d d d c c f f . 
+. f f f b f d d f b f f f . 
+. f f 4 1 f d d f 1 4 f f . 
+. . f f d d d d d d f f . . 
+. . e f e d 3 3 d e f e . . 
+. e 4 f b 7 7 7 7 b f b e . 
+. 4 d f 7 7 7 7 7 7 c d b . 
+. 4 4 f 6 6 6 6 6 6 f b b . 
+. . . . f f f f f f . . . . 
+. . . . f f . . f f . . . . 
+`;
         }
         return null;
     })
