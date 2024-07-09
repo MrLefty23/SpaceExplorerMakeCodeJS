@@ -422,6 +422,25 @@ f f f c 3 c c c c 3 c f f f
 . . . . f f f f f f . . . . 
 . . . . f f . . f f . . . . 
 `;
+            case "image20":
+            case "good_ol_man":return img`
+. . . . . . . . . . . . . . 
+. . . f f f c c c . . . . . 
+. f f b b b b b b f f . . . 
+. f b b b b b b b b b f . . 
+f b b b b b b b b b b b c . 
+f b b b d b b b b b b b b c 
+f b d 4 4 b b b b b b b b f 
+f b b 4 4 4 c c b b b b b f 
+. f f 4 4 c b c b b b b b f 
+. . f d d c 1 e b b b b b c 
+. . c d d d d e e b b b b c 
+. . c 4 4 4 e d d 4 b b c . 
+. . c 9 9 9 e d d e c c . . 
+. c b b b b b e e b b c . . 
+. c 3 b 3 b 3 3 3 b c . . . 
+. . c c c b b c c c . . . . 
+`;
         }
         return null;
     })

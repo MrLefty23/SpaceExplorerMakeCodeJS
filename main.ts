@@ -17,6 +17,7 @@ let aliensOnScreen = 0
 let blasterType = 1
 let bootsType = 1
 let deleteSprites = false
+let monkeysCaught = false
 
 
 
@@ -33,6 +34,7 @@ namespace SpriteKind{
     export const BootsUpgrade = SpriteKind.create()
     export const BlasterUpgrade = SpriteKind.create()
     export const Portal = SpriteKind.create()
+    export const Monkey = SpriteKind.create()
 }
 
 
@@ -315,8 +317,9 @@ game.onUpdate(function(){
         if(costume == 5){
             npc.setImage(assets.image`finalNPC`)
         }
-        //row_of_?
+        //row_of_monkeys
         if(costume == 4){
+            npc.setKind(SpriteKind.Monkey)
             npc.setImage(img`
                 . . . . . . . f f f f f . . . .
                 . . . . . . f e e e e e f . . .
@@ -337,8 +340,34 @@ game.onUpdate(function(){
             `)
         }
         //tourGuide
-        if(costume == 5){
+        if(costume == 6){
             npc.setImage(assets.image`Tourrr GUiiide`)
+        }
+        //startTourGuide
+        if(costume == 7){
+            npc.setImage(assets.image`good_ol_man`)
+        }
+
+        //monkeyTamer
+        if(costume == 8){
+            npc.setImage(img`
+                . . . . . . . c c c . . . . . .
+                . . . . . . c b 5 c . . . . . .
+                . . . . c c c 5 5 c c c . . . .
+                . . c c b c 5 5 5 5 c c c c . .
+                . c b b 5 b 5 5 5 5 b 5 b b c .
+                . c b 5 5 b b 5 5 b b 5 5 b c .
+                . . f 5 5 5 b b b b 5 5 5 c . .
+                . . f f 5 5 5 5 5 5 5 5 f f . .
+                . . f f f b f e e f b f f f . .
+                . . f f f 1 f b b f 1 f f f . .
+                . . . f f b b b b b b f f . . .
+                . . . e e f e e e e f e e . . .
+                . . e b c b 5 b b 5 b f b e . .
+                . . e e f 5 5 5 5 5 5 f e e . .
+                . . . . c b 5 5 5 5 b c . . . .
+                . . . . . f f f f f f . . . . .
+            `)
         }
         game.onUpdate(function (){
             //Close2NPC
@@ -358,11 +387,46 @@ game.onUpdate(function(){
                     
                 }
                 //tourGuide
-                if(costume == 5){
-                    npc.say("Press A to hear my story...", 500)
+                if(costume == 6){
+                    npc.say('Press B to talk', 500)
+                    if(controller.B.isPressed()== true){
+                        game.splash("One night in October")
+                        game.splash("I was walking into the arena")
+                        game.splash("Then, a monster came to me")
+                        game.splash("And then it almost hurt me")
+                        game.splash("but luckily, I'm still here")
+                        game.splash("Good Luck Friend!")
+                        music.beamUp
+
+                    }
 
                 }
-                
+                //startTourGuide
+                if(costume == 7){
+                    npc.say('Press B to talk', 500)
+                    if(controller.B.isPressed()== true){
+                        game.splash('Hello, young fellow')
+                        game.splash('Help us! Big Alien stole', 'the key')
+                        game.splash('Please beat Big', 'Alien for us!')
+                        game.splash('Good Luck Bud.')
+                        music.magicWand.play()
+
+                    }
+                }
+                //monkeyTamer
+                if(costume == 8){
+                    if(monkeysCaught == false){
+                        npc.say("Press B to talk", 500)
+                        if(controller.B.isPressed()== true){
+                            game.splash('Hello, Time to catch ','monkeys!')
+                            game.splash('Oh, I forgot to tell ya','My Monkeys are loose!!')
+                            game.splash('So, If you catch them',"I'll give you a special gift")
+                            game.splash('Good Luck!')
+
+                        }
+                        
+                    }
+                }
                 
             }
             if (deleteSprites == true) {
@@ -938,8 +1002,12 @@ function level1Setup() {
     spawnChest(63.5, 1, 1)
     spawnChest(28, 2, 1)
     spawnChest(14, 33, 2)
-    //tourGuide
-    spawnNPC(62.5, 31.5, 5)
+    //EndtourGuide
+    spawnNPC(61, 31.5, 6)
+    //startTourGuide
+    spawnNPC(8, 3, 7)
+
+    
         
 
 }

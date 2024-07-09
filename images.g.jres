@@ -94,6 +94,11 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "Tourrr GUiiide"
     },
+    "image20": {
+        "data": "hwQOABAAAAAAAP//AAAAAAD/u7sPAMAMAL+7vf/MvMPwu7tE1E25y/C720TUTbnD8Lu7S8xNubvAu7vLG+2+s8C7u8vs3u3DwLu7u7ve7cMAv7u7u0u+ywC/u7u7u7wMAPC7u7u7zAAAALy7u8sAAAAAwP/PDAAA",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "good_ol_man"
+    },
     "anim1": {
         "namespace": "myAnimations",
         "id": "anim1",
