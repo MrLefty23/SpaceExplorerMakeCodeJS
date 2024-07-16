@@ -17,8 +17,8 @@ let aliensOnScreen = 0
 let blasterType = 1
 let bootsType = 1
 let deleteSprites = false
-let monkeysCaught = false
-
+let monkeyCollected = 0
+let monkeyQuest = 0
 
 
 namespace SpriteKind{
@@ -415,20 +415,30 @@ game.onUpdate(function(){
                 }
                 //monkeyTamer
                 if(costume == 8){
-                    if(monkeysCaught == false){
-                        npc.say("Press B to talk", 500)
-                        if(controller.B.isPressed()== true){
+                    npc.say("Press B to talk", 500)
+                    if (controller.B.isPressed() == true){
+                        if(monkeyQuest == 0){
                             game.splash('Hello, Time to catch ','monkeys!')
                             game.splash('Oh, I forgot to tell ya','My Monkeys are loose!!')
-                            game.splash('So, If you catch them',"I'll give you a special gift")
+                            game.splash('So, If you catch them',"I'll give you a gift")
                             game.splash('Good Luck!')
-
+                            music.magicWand.play()
+                            monkeyQuest = 1
                         }
-                        
+                        if(monkeyQuest == 1){
+                            game.splash('There are still', (20-monkeyCollected).toString()+' monkeys loose.')
+                        }
+                        if(monkeyQuest == 2){
+                            game.splash('Woo, TYSM! Monkeys back!')
+                            game.splash('Bro wants to follow yo!')
+                            game.splash('Take good care of him!')
+                        }
                     }
                 }
                 
             }
+            
+            
             if (deleteSprites == true) {
                 npc.say("", 1)
                 npc.destroy()
@@ -436,6 +446,11 @@ game.onUpdate(function(){
             }
 
             
+        })
+        game.onUpdateInterval(2000, function(){
+            if(costume == 4){
+                npc.setVelocity(Math.pickRandom([-40, 0, 40]), Math.pickRandom([-40, 0, 40]))
+            }
         })
         
     }
@@ -860,7 +875,20 @@ game.onUpdate(function(){
         coin.destroy()
         music.baDing.play()
     })
+    //Monkeys
+    sprites.onOverlap(SpriteKind.Player, SpriteKind.Monkey, function(bob: Sprite, monkey: Sprite){
+        if(monkeyQuest == 1){
+            monkey.setKind(SpriteKind.NonPlayable)
+            monkey.setPosition(62 * 16, 46 * 16)
+            monkeyCollected++
+            music.buzzer.play()
+            bob.say(monkeyCollected.toString()+"/20", 500)
+            if(monkeyCollected == 20){
+                monkeyQuest = 2
 
+            }
+        }
+    })
     //ShopHeart
     sprites.onOverlap(SpriteKind.Player, SpriteKind.ShopHeart, function(player: Sprite, heart: Sprite){
         if(info.score() >= 10){
@@ -981,9 +1009,12 @@ function level1Setup() {
     //doogInTheHome
     spawnNPC(41, 34, 3)
     //mon-key
-    for(let i = 5; i < 28; i++){
+    for(let i = 5; i < 15; i++){
         spawnNPC(i, 37, 4)
     }
+    for (let i = 7; i < 17; i++){
+        spawnNPC(i, 66, 4)
+    }    
     //AlienSpawner1
     spawner(28, 30)
     //spawner2
@@ -1006,6 +1037,8 @@ function level1Setup() {
     spawnNPC(61, 31.5, 6)
     //startTourGuide
     spawnNPC(8, 3, 7)
+    //monkeyTamer
+    spawnNPC(55, 45, 8)
 
     
         
