@@ -6,6 +6,7 @@ let alien: Sprite = null
 let npc: Sprite = null
 let coinIcon: Sprite = null
 let bigAlien: Sprite = null 
+let bro: Sprite = null
 
 
 
@@ -19,7 +20,8 @@ let bootsType = 1
 let deleteSprites = false
 let monkeyCollected = 0
 let monkeyQuest = 0
-
+let gameOverTimer = 0
+let monkeyCompanion = false
 
 namespace SpriteKind{
     export const EnemyProjectile = SpriteKind.create()
@@ -35,8 +37,8 @@ namespace SpriteKind{
     export const BlasterUpgrade = SpriteKind.create()
     export const Portal = SpriteKind.create()
     export const Monkey = SpriteKind.create()
+    export const Companion = SpriteKind.create()
 }
-
 
 info.setLife(20)
 info.setBackgroundColor(15)
@@ -45,14 +47,26 @@ info.setFontColor(1)
 coinIcon = sprites.create(assets.image`coin`)
 coinIcon.setPosition(135, 5)
 coinIcon.setFlag(SpriteFlag.RelativeToCamera, true)
-info.setScore(50)
+info.setScore(10)
 
 //gameOver(Sorry Bob...)
 info.onLifeZero(function() {
     
-    animation.runImageAnimation(bob, assets.animation`Bobdied`, 500, false)
+    animation.runImageAnimation(bob, assets.animation`Bobdied`, 300, false)
+    startGameOverTimer()
+    game.onUpdate(function(){
+        if(gameOverTimer > 4){
+            game.over()
+        }
+    })  
     //game.over()
 })
+
+function startGameOverTimer(){
+    game.onUpdateInterval(300, function(){
+        gameOverTimer++
+    })
+}
 
 
 //controller setup
@@ -300,6 +314,7 @@ game.onUpdate(function(){
         })
 
     }
+    
 
     //npc
     function spawnNPC(xPos: number, yPos: number, costume: number){
@@ -432,6 +447,10 @@ game.onUpdate(function(){
                             game.splash('Woo, TYSM! Monkeys back!')
                             game.splash('Bro wants to follow yo!')
                             game.splash('Take good care of him!')
+                            music.powerUp.play()
+                            spawnMonkeyCompanion()
+
+
                         }
                     }
                 }
@@ -453,6 +472,18 @@ game.onUpdate(function(){
             }
         })
         
+    }
+
+
+    //monkeyCompanion
+    function spawnMonkeyCompanion(){
+        monkeyCompanion = true
+        bro = sprites.create(assets.image`bro`, SpriteKind.Companion)
+        bro.setPosition(bob.x + 10, bob.y - 10)
+        
+        game.onUpdate(function () {
+            bro.follow(bob, 75)
+        })
     }
 
     //chest
